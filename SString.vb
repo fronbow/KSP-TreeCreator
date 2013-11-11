@@ -10,4 +10,10 @@
         s.Value = value.Trim.Remove(0, value.LastIndexOf(Char.Parse("=")) + 1).Trim()
         Return s
     End Operator
+    Public Shared Operator &(ByVal Param1 As String, ByVal Param2 As SString)
+        Return Param1 & CStr(Param2)
+    End Operator
+    Public Shared Operator &(ByVal Param1 As SString, ByVal Param2 As String)
+        Return CStr(Param1) & Param2
+    End Operator
 End Class

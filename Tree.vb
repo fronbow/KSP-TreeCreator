@@ -40,15 +40,27 @@
     End Sub
 End Class
 Public Class Node
-    Public Property name As SString
-    Public Property techID As SString
-    Public Property pos As SString
-    Public Property icon As SString
-    Public Property cost As SString
-    Public Property title As SString
-    Public Property description As SString
-    Public Property anyParent As SString
-    Public Property hideIfEmpty As SString
-    Public Property parents As SString
-    Public Property PARTS As List(Of SString)
+    Sub New()
+        Me.name.Item = "name"
+        Me.techID.Item = "techID"
+        Me.pos.Item = "pos"
+        Me.icon.Item = "icon"
+        Me.cost.Item = "cost"
+        Me.title.Item = "title"
+        Me.description.Item = "description"
+        Me.anyParent.Item = "anyParent"
+        Me.hideIfEmpty.Item = "hideIfEmpty"
+        Me.parents.Item = "parents"
+    End Sub
+    Public Property name As New SString
+    Public Property techID As New SString
+    Public Property pos As New SString
+    Public Property icon As New SString
+    Public Property cost As New SString
+    Public Property title As New SString
+    Public Property description As New SString
+    Public Property anyParent As New SString
+    Public Property hideIfEmpty As New SString
+    Public Property parents As New SString
+    Public Property PARTS As New List(Of SString)
 End Class
