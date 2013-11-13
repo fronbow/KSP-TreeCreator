@@ -92,6 +92,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="NodeExists.Designer.vb">
+      <DependentUpon>NodeExists.vb</DependentUpon>
+    </Compile>
+    <Compile Include="NodeExists.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Pos.vb" />
     <Compile Include="Preview.Designer.vb">
       <DependentUpon>Preview.vb</DependentUpon>
@@ -111,6 +117,9 @@
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NodeExists.resx">
+      <DependentUpon>NodeExists.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Preview.resx">
       <DependentUpon>Preview.vb</DependentUpon>

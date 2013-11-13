@@ -25,6 +25,11 @@
         TAnyParent.Text = ""
         THideIfEmpty.Text = ""
         TParents.Text = ""
+        ResetTree()
+    End Sub
+
+    Public Sub ResetTree()
+        TreeView1.Nodes.Clear()
         For Each t As Node In Tree.Nodes
             Dim n As New TreeNode(t.title.Value & " (" & t.name.Value & ")")
             n.Tag = Tree.Nodes.IndexOf(t)
@@ -231,6 +236,66 @@
     End Sub
 
     Private Sub ToolStripButton6_Click(sender As Object, e As EventArgs) Handles ToolStripButton6.Click
-        Preview.Show()
+        Dim prev As New Preview
+        prev.Show()
+    End Sub
+
+    Private Sub ToolStripButton7_Click(sender As Object, e As EventArgs) Handles ToolStripButton7.Click
+        Dim open As New OpenFileDialog
+        open.Filter = "Configuration Files (*.cfg)|*.cfg|All Files (*.*)|*.*"
+        open.FileName = ""
+        If open.ShowDialog = Windows.Forms.DialogResult.Cancel Then Exit Sub
+        Dim s As String
+        Using r As New IO.StreamReader(open.FileName)
+            s = r.ReadToEnd
+        End Using
+        Dim c As New Tree
+        c.Load(s)
+        For Each n As Node In c.Nodes
+            Dim b As Boolean = False
+            For Each nn As Node In Tree.Nodes
+                If nn.name = n.name AndAlso nn.pos = n.pos AndAlso nn.techID = n.techID Then
+                    Dim o As New NodeExists
+                    o.NodeName = n.name.Value
+                    o.ShowDialog(Me)
+                    b = True
+                    Select Case o.ExistingResult
+                        Case NodeExists.Result.Overwrite
+                            Tree.Nodes(Tree.Nodes.IndexOf(nn)) = n
+                        Case NodeExists.Result.KeepExisting
+                            Exit For
+                        Case NodeExists.Result.MergeIntoOld
+                            For Each p As SString In n.PARTS
+                                Dim bb As Boolean = True
+                                For Each pp As SString In nn.PARTS
+                                    If p.Value = pp.Value Then
+                                        bb = False : Exit For
+                                    End If
+                                Next
+                                ''''If Tree.Nodes(Tree.Nodes.IndexOf(nn)).PARTS.Contains(p) = False Then
+                                ''''Tree.Nodes(Tree.Nodes.IndexOf(nn)).PARTS.Add(p)
+                                '''' End If
+                                If bb = True Then Tree.Nodes(Tree.Nodes.IndexOf(nn)).PARTS.Add(p)
+                                'If Tree.Nodes(Tree.Nodes.IndexOf(nn)).PARTS.IndexOf(p) = -1 Then
+                                'Tree.Nodes(Tree.Nodes.IndexOf(nn)).PARTS.Add(p)
+                                'End If
+                            Next
+                        Case NodeExists.Result.MergeIntoNew
+                            For Each p As SString In nn.PARTS
+                                Dim bb As Boolean = True
+                                For Each pp As SString In n.PARTS
+                                    If p.Value = pp.Value Then
+                                        bb = False : Exit For
+                                    End If
+                                Next
+                                If bb = True Then c.Nodes(c.Nodes.IndexOf(nn)).PARTS.Add(p)
+                            Next
+                            Tree.Nodes(Tree.Nodes.IndexOf(nn)) = c.Nodes(c.Nodes.IndexOf(nn))
+                    End Select
+                End If
+            Next
+            If b = False Then Tree.Nodes.Add(n)
+        Next
+        ResetTree()
     End Sub
 End Class

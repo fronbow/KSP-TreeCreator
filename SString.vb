@@ -16,4 +16,10 @@
     Public Shared Operator &(ByVal Param1 As SString, ByVal Param2 As String)
         Return CStr(Param1) & Param2
     End Operator
+    Public Shared Operator =(ByVal Param1 As SString, ByVal Param2 As SString)
+        Return (Param1.Item = Param2.item) And (Param1.Value = Param2.value)
+    End Operator
+    Public Shared Operator <>(ByVal Param1 As SString, ByVal Param2 As SString)
+        Return Not ((Param1.Item = Param2.Item) And (Param1.Value = Param2.Value))
+    End Operator
 End Class
